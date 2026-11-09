@@ -118,7 +118,10 @@ V1.6.1, which integrates the ESP32 and LoRa radio. The 868/915 MHz version has
 an SX1276; the 433 MHz version has an SX1278.
 
 You also need at least one other Meshtastic node on the same region, preset,
-and channel. A 433 MHz board can only talk to other 433 MHz nodes.
+and channel. A 433 MHz board can only talk to other 433 MHz nodes. A phone
+alone is not a node: the Meshtastic app has no LoRa radio and connects to a
+Meshtastic node over Bluetooth, Wi-Fi, or USB. Mocktastic does not offer that
+connection, so the app cannot connect to a Mocktastic board.
 
 Install Arduino IDE, download or clone this repository, and open
 `meshtastic_decoder/meshtastic_decoder.ino`. Install these libraries through
@@ -280,6 +283,17 @@ For the sensor build, replace that line with:
 ----
 
 Build and upload the sketch with Arduino IDE for your selected ESP32 board.
+For the LilyGO T3 V1.6.1, pick *Tools > Board > esp32 > TTGO LoRa32-OLED*,
+then *Tools > Revision > TTGO LoRa32 V2.1 (1.6.1)*.
+
+If the upload fails with "Unable to verify flash chip connection" right after
+esptool changes the baud rate to 921600, set *Tools > Upload Speed* to 115200
+and upload again. A T3 V1.6.1 with a WCH CH9102 USB chip failed at 921600 on
+macOS 13 with the built-in driver, and worked at 115200.
+
+After the upload, open the serial monitor at 115200 baud and press the reset
+button. The first sketch line shows the radio settings, for example
+`LoRa: region EU_433, preset LongFast, channel LongFast, slot 4, 433875000 Hz, 10 dBm`.
 
 === LoRa shell (DECODER)
 

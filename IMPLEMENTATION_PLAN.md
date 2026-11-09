@@ -116,6 +116,18 @@ the frequency table, and the power and duty cycle limits.
   sketch outside the repo. No PlatformIO files are part of this fork.
 - The non-test `keys.h` resolves to EU_433, LongFast, slot 4,
   433875000 Hz, 10 dBm.
+- Hardware, 433 MHz T3 V1.6.1 (ESP32-PICO-D4 rev 1.0, WCH CH9102 USB chip):
+  - Arduino IDE with ESP32 core 3.x builds the DECODER sketch as C++20
+    (`__cplusplus` 202002), 46% of flash.
+  - Upload at 921600 baud failed with "Unable to verify flash chip
+    connection" on macOS 13 with the built-in CH9102 driver. Upload at
+    115200 worked.
+  - The board boots and prints `LoRa: region EU_433, preset LongFast,
+    channel LongFast, slot 4, 433875000 Hz, 10 dBm`, so the radio starts
+    on the computed frequency.
+  - `/rssi` returned -93 dBm with the board next to the computer. Thermal
+    noise at 250 kHz bandwidth is about -114 dBm, so nearby equipment adds
+    noise. Recheck with the board away from the computer.
 - Not yet verified: on-air reception and transmission against a real
   433 MHz Meshtastic node.
 
